@@ -48,4 +48,14 @@ public class StudentServiceImpl implements StudentService{
         Student updatedStudent = studentRepo.save(student);
         return updatedStudent;
     }
+
+    @Override
+    public Student getStudentByName(String name) {
+        return studentRepo.findByName(name).get();
+    }
+
+    @Override
+    public List<Student> getStudentsInCgpaRange(float min, float max) {
+        return studentRepo.findByCgpaBetween(min,max);
+    }
 }

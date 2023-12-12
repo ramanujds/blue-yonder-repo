@@ -16,6 +16,8 @@ public interface StudentService {
 
     Student updateStudent(Student student) ;
 
+    Student getStudentByName(String name) ;
 
+    List<Student> getStudentsInCgpaRange(float min, float max);
 
 }

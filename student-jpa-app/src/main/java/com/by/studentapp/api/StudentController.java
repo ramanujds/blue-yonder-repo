@@ -50,5 +50,14 @@ public class StudentController {
         return studentService.updateStudent(student);
     }
 
+    @GetMapping("/search")
+    public Student getStudentByName(@RequestParam("name") String name){
+        return studentService.getStudentByName(name);
+    }
+
+    @GetMapping("/cgpa")
+    public List<Student> findStudentsInCgpaRange(@RequestParam("min") float min,@RequestParam("max") float max){
+        return studentService.getStudentsInCgpaRange(min,max);
+    }
 
 }

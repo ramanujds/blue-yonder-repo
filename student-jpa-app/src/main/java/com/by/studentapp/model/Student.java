@@ -1,9 +1,6 @@
 package com.by.studentapp.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,12 +16,15 @@ public class Student {
 
     @Id
     @Column(name = "student_id")
-    int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     @Column(name = "student_name", length =50, nullable = false)
-    String name;
+    private String name;
     @Column(name = "email", length =100, nullable = false, unique = true)
-    String email;
+    private String email;
     @Column(name = "birth_date")
-    LocalDate dob;
+    private LocalDate dob;
+    @Column(name = "cgpa", nullable = true)
+    private float cgpa;
 
 }

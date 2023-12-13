@@ -31,10 +31,20 @@ public interface StudentRepository extends JpaRepository<Student,Integer> {
 
     // find all students based on a minimum cgpa
 
+    @Query("from Student where cgpa>=:min")
+    List<Student> findByMinimumCgpa(float min);
+
     // find all students based on a maximum cgpa
+
+    @Query("from Student where cgpa<=:max")
+    List<Student> findByMaximumCgpa(float max);
 
     // find a student with name and id
 
+    Student findByNameAndId(String name, int id);
+
     // find student with either name is matching or id is matching
+
+    Student findByNameOrId(String name, int id);
 
 }

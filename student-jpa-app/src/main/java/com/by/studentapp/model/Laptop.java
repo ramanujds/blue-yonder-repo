@@ -1,9 +1,7 @@
 package com.by.studentapp.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -20,5 +18,10 @@ public class Laptop {
     private int ram;
 
     private int storage;
+
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id")
+    private Student student;
 
 }

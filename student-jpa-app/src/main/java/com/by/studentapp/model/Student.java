@@ -38,8 +38,11 @@ public class Student {
 
 //    @OneToOne(cascade = CascadeType.PERSIST)
 //    private Laptop laptop;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "student")
     private List<Laptop> laptops;
+
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<Laptop> laptops;
 
 }

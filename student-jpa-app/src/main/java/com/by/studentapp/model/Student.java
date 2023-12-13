@@ -1,11 +1,14 @@
 package com.by.studentapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,5 +29,17 @@ public class Student {
     private LocalDate dob;
     @Column(name = "cgpa", nullable = true)
     private float cgpa;
+    @Transient
+    private int age;
+
+    @ElementCollection
+    private List<String> papers=new ArrayList<>();
+
+
+//    @OneToOne(cascade = CascadeType.PERSIST)
+//    private Laptop laptop;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Laptop> laptops;
 
 }

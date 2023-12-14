@@ -36,6 +36,11 @@ public class Student {
     private List<String> papers=new ArrayList<>();
 
 
+    @Embedded
+    @AttributeOverride(name = "buildingName", column = @Column(name = "addressLine1"))
+    private Address address;
+
+
 //    @OneToOne(cascade = CascadeType.PERSIST)
 //    private Laptop laptop;
 

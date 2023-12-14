@@ -1,5 +1,6 @@
 package com.by.studentapp.api;
 
+import com.by.studentapp.model.ContactDeatils;
 import com.by.studentapp.model.Student;
 import com.by.studentapp.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +62,11 @@ public class StudentController {
     @GetMapping("/cgpa")
     public List<Student> findStudentsInCgpaRange(@RequestParam("min") float min,@RequestParam("max") float max){
         return studentService.getStudentsInCgpaRange(min,max);
+    }
+
+    @GetMapping("/contact")
+    public ContactDeatils showContactDetails(){
+        return new ContactDeatils("9999999999","abc@yahoo.com","Bangalore");
     }
 
 }

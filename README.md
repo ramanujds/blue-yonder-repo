@@ -1,3 +1,13 @@
+# Notes and Important Links
+
+## Microservices in Details
+
+https://github.com/ramanujds/spring-boot-microservices
+
+## Case-study Shopping Cart App
+
+https://github.com/ramanujds/online-shopping-app
+
 # Spring Data JPA
 
 ## JDBC

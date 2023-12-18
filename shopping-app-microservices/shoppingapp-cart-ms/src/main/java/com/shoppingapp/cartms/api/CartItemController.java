@@ -1,5 +1,6 @@
 package com.shoppingapp.cartms.api;
 
+import com.shoppingapp.cartms.dto.CartDetails;
 import com.shoppingapp.cartms.model.CartItem;
 import com.shoppingapp.cartms.service.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,12 @@ public class CartItemController {
     }
 
     @PostMapping("/products/{productId}/quantity/{quantity}")
-    public CartItem addProductToCart(@PathVariable String productId, @PathVariable int quantity){
+    public CartDetails addProductToCart(@PathVariable String productId, @PathVariable int quantity){
         return cartItemService.addProductToCart(productId, quantity);
     }
 
     @GetMapping
-    public List<CartItem> getAllProductsFromCart(){
+    public CartDetails getAllProductsFromCart(){
         return cartItemService.getAllProductsFromCart();
     }
 

@@ -1,5 +1,6 @@
 package com.shoppingapp.cartms.service;
 
+import com.shoppingapp.cartms.dto.CartDetails;
 import com.shoppingapp.cartms.model.CartItem;
 import com.shoppingapp.cartms.model.Product;
 import com.shoppingapp.cartms.repository.CartItemRepository;
@@ -25,11 +26,11 @@ public class CartItemServiceImpl implements CartItemService {
 
 
     @Override
-    public CartItem addProductToCart(String productId, int quantity) {
+    public CartDetails addProductToCart(String productId, int quantity) {
         // fetch product from product service
         Product product = null;
 
-        product = restTemplate.getForObject("http://localhost:5100/api/products/" + productId, Product.class);
+        product = restTemplate.getForObject("http://PRODUCT-MS/api/products/" + productId, Product.class);
 
         // create cart item
         CartItem cartItem = new CartItem();
@@ -38,8 +39,17 @@ public class CartItemServiceImpl implements CartItemService {
         cartItem.setPrice(product.getPrice());
         cartItem.setQuantity(quantity);
 
-        // save cart item
-        return cartItemRepository.save(cartItem);
+        CartItem item = cartItemRepository.save(cartItem);
+
+       // float total = quantity * product.getPrice();
+
+        List<CartItem> items = cartItemRepository.findAll();
+
+        float total = fetchTotalCartValue(items);
+
+        CartDetails details= new CartDetails(items,total);
+
+        return details;
 
     }
 
@@ -59,7 +69,17 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public List<CartItem> getAllProductsFromCart() {
-        return cartItemRepository.findAll();
+    public CartDetails getAllProductsFromCart() {
+        List<CartItem> items = cartItemRepository.findAll();
+
+        float total = fetchTotalCartValue(items);
+
+        CartDetails details = new CartDetails(items, total);
+        return details;
+    }
+
+    private float fetchTotalCartValue(List<CartItem> items){
+        float total = (float) items.stream().mapToDouble(i -> i.getPrice() * i.getQuantity()).sum();
+        return total;
     }
 }

@@ -1,12 +1,13 @@
 package com.shoppingapp.cartms.service;
 
+import com.shoppingapp.cartms.dto.CartDetails;
 import com.shoppingapp.cartms.model.CartItem;
 
 import java.util.List;
 
 public interface CartItemService {
 
-    public CartItem addProductToCart(String productId, int quantity);
+    public CartDetails addProductToCart(String productId, int quantity);
 
     public CartItem updateProductInCart(String productId, int quantity);
 
@@ -14,6 +15,6 @@ public interface CartItemService {
 
     public void deleteAllProductsFromCart();
 
-    public List<CartItem> getAllProductsFromCart();
+    public CartDetails getAllProductsFromCart();
 
 }

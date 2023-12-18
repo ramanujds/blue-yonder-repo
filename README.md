@@ -74,7 +74,7 @@ findById(1);
 This example demonstrates the mapping between a `Student` Java class and a corresponding database table, along with the creation, saving, and retrieval of a `Student` object using various data access methods.
 
 
-**Steps to Implement Service Discovery Using Eureka Server**
+## Steps to Implement Service Discovery Using Eureka Server
 
 *Eureka Server Configuration*
 

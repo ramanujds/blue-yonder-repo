@@ -11,11 +11,13 @@
         <module name="shoppingapp-cart-ms" />
         <module name="discovery-server" />
         <module name="shoppingapp-product-ms" />
+        <module name="api-gateway-server" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-gateway-server" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
       <module name="shoppingapp-cart-ms" options="-parameters" />
       <module name="shoppingapp-order-ms" options="-parameters" />

@@ -1,0 +1,47 @@
+server:
+  port: 5000
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+      - id: product-ms
+        uri:
+          lb://product-ms
+        predicates:
+          - Path=/api/products/**
+
+      - id: cart-ms
+        uri:
+          lb://cart-ms
+        predicates:
+          - Path=/api/cart/**
+
+      - id: order-ms
+        uri:
+          lb://order-ms
+        predicates:
+          - Path=/api/order/**
+
+
+#      - id: product-ms-swagger
+#        uri:
+#          lb://product-ms
+#        predicates:
+#          - Path=/swagger-ui/index.html
+
+
+
+
+#springdoc:
+#  swagger-ui:
+#    urls:
+#      - name: product-ms
+#        url: /v3/api-docs/product-ms
+##      - name: cart
+##        url: /v3/api-docs/cart
+##      - name: order
+##        url: /v3/api-docs/order

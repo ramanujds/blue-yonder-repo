@@ -124,3 +124,95 @@ This example demonstrates the mapping between a `Student` Java class and a corre
    - This change allows Eureka to dynamically resolve the service instance's actual location.
 
 By following these steps, you establish a Eureka Server for service registration and discovery, enabling seamless communication between microservices in a dynamic and scalable environment.
+
+
+# Steps to Implement API Gateway
+
+## What is API Gateway?
+
+API Gateway acts as a unified entry point for client applications, providing a streamlined interface to communicate with our microservices. It simplifies the interaction between clients and the underlying services, handling cross-cutting concerns such as logging, security, and more.
+
+## Usage
+
+API Gateway is crucial for managing common concerns across microservices, ensuring a consistent and secure communication channel for client applications.
+
+## Spring Gateway
+
+To implement API Gateway using Spring Cloud Gateway, follow these detailed steps:
+
+### 1. Create a New Spring Boot Project
+
+Begin by creating a new Spring Boot project using your preferred IDE or Spring Initializr.
+
+### 2. Add Gateway Dependency
+
+Include the necessary dependencies for Spring Cloud Gateway in your project. Update your `pom.xml` file with the following:
+
+```xml
+<!-- Add the Spring Cloud Gateway dependency -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+```
+
+### 3. Add Eureka Client Dependency (Optional)
+
+If you are using Eureka for service discovery, include the Eureka Client dependency:
+
+```xml
+<!-- Add the Eureka Client dependency -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
+
+### 4. Configure `application.yml`
+
+Create or update your `application.yml` file with the following configuration:
+
+```yaml
+server:
+  port: 5000
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: product-ms
+          uri: lb://product-ms
+          predicates:
+            - Path=/api/products/**
+
+        - id: cart-ms
+          uri: lb://cart-ms
+          predicates:
+            - Path=/api/cart/**
+
+        - id: order-ms
+          uri: lb://order-ms
+          predicates:
+            - Path=/api/order/**
+```
+
+### Explanation of Configuration
+
+- **`server` section:** Specifies the port on which the API Gateway will run.
+
+- **`spring.application` section:** Sets the name of the Spring Boot application.
+
+- **`spring.cloud.gateway.routes` section:** Defines the routes for different microservices.
+
+    - **`id`:** Unique identifier for the route.
+    
+    - **`uri`:** Load-balanced URI pointing to the target microservice.
+    
+    - **`predicates`:** Conditions based on the request path that trigger the routing to a specific microservice.
+
+Adjust the `uri` and `predicates` based on your microservices' endpoints and routing requirements.
+
+This configuration assumes Eureka is used for service discovery. If not, adjust the configuration accordingly. Once configured, the API Gateway will effectively route requests to the specified microservices based on the defined paths.

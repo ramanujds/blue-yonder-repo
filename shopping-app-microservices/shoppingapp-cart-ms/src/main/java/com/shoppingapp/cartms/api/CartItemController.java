@@ -19,7 +19,7 @@ public class CartItemController {
         this.cartItemService = cartItemService;
     }
 
-    @PostMapping("/products/{productId}/quantity/{quantity}")
+    @GetMapping("/products/{productId}/quantity/{quantity}")
     public CartDetails addProductToCart(@PathVariable String productId, @PathVariable int quantity){
         return cartItemService.addProductToCart(productId, quantity);
     }

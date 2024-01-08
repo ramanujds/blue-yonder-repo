@@ -36,12 +36,4 @@ spring:
 
 
 
-#springdoc:
-#  swagger-ui:
-#    urls:
-#      - name: product-ms
-#        url: /v3/api-docs/product-ms
-##      - name: cart
-##        url: /v3/api-docs/cart
-##      - name: order
-##        url: /v3/api-docs/order
+

@@ -12,7 +12,7 @@ spring:
             path: /h2-console
             web-allow-others: true
         datasource:
-            url: jdbc:h2:mem:orderdb
+            url: ${CART_DB_URL:jdbc:h2:mem:cartdb}
             username: sa
             password:
             driver-class-name: org.h2.Driver
@@ -23,3 +23,10 @@ spring:
             hibernate:
             ddl-auto: update
             format_sql: true
+
+# Enable actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, beans, env, health, info, metrics, httptrace, loggers, threaddump, mappings, conditions, configprops, scheduledtasks, shutdown

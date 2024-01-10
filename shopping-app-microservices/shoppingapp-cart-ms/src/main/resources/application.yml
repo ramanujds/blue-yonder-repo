@@ -5,16 +5,8 @@ server:
 spring:
   application:
     name: cart-ms
-  datasource:
-    url: jdbc:h2:mem:cartdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
+  profiles:
+    active: ${ACTIVE_PROFILE:qa}
   jpa:
     hibernate:
       ddl-auto: update
@@ -23,6 +15,43 @@ spring:
       hibernate:
         format_sql: true
         use_sql_comments: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      cb-product-ms:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 1
+        slidingWindowSize: 10
+        waitDurationInOpenState: 2s
+        slidingWindowType: COUNT_BASED
+
+  retry:
+    metrics:
+      enabled: true
+    instances:
+      retry-product-fetch:
+        max-attempts: 5
+        wait-duration: 5000
+
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    httptrace:
+      enabled: true
 
 resilience4j:
   circuitbreaker:

@@ -12,6 +12,14 @@ public class ProductServiceImpl implements ProductService{
 
     private ProductRepository productRepository;
 
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    public ProductServiceImpl(){
+
+    }
+
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository){
         this.productRepository = productRepository;
@@ -19,6 +27,9 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Product createProduct(Product product){
+        if(productRepository.existsById(product.getId())){
+            throw new RuntimeException("Duplicate Product");
+        }
         return productRepository.save(product);
     }
 

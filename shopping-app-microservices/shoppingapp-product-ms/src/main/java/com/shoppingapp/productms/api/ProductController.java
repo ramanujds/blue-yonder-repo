@@ -14,6 +14,10 @@ public class ProductController {
 
     private ProductService productService;
 
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
+
     @Autowired
     public ProductController(ProductService productService){
         this.productService = productService;

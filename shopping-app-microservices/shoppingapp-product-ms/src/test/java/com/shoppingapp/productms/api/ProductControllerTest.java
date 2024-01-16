@@ -42,7 +42,7 @@ public class ProductControllerTest {
         when(productService.findProductById(product.getId())).thenReturn(product);
 
         // Then
-        mockMvc.perform(get("/api/products/1"))
+        mockMvc.perform(get("/api/products/"+product.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value("1"))

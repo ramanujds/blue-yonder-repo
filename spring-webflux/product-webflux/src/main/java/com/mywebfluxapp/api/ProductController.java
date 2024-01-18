@@ -2,19 +2,16 @@ package com.mywebfluxapp.api;
 
 import com.mywebfluxapp.dto.ProductDto;
 import com.mywebfluxapp.service.ProductService;
+import com.mywebfluxapp.service.ProductServiceCollectionBasedImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
+// ab -n 100 -c 100 http://localhost:5100/api/products/reactive
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/products/reactive")
 public class ProductController {
 
     private ProductService productService;
@@ -26,18 +23,36 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProductById(@PathVariable int id){
-        ProductDto product = productService.getProductById(id);
-        if(product==null){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(product);
+    public Mono<ProductDto> getProductById(@PathVariable int id){
+       return productService.getProductById(id);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProducts(){
-        return ResponseEntity.ok(productService.getAllProducts());
+    @GetMapping(produces = "text/event-stream")
+    public Flux<ProductDto> getAllProducts(){
+        return productService.getAllProducts();
     }
+
+    @PostMapping
+    public Mono<ProductDto> addProduct(@RequestBody Mono<ProductDto> product){
+        return productService.saveProduct(product);
+    }
+
+    @DeleteMapping("/{id}")
+    public Mono<Void> deleteProductById(@PathVariable int id){
+        return productService.deleteProduct(id);
+    }
+
+    @PutMapping
+    public Mono<ProductDto> updateProduct(@RequestBody Mono<ProductDto> product){
+        return productService.updateProduct(product);
+    }
+
+    @GetMapping("/name/{name}")
+    public Mono<ProductDto> getProductByName(@PathVariable String name){
+        return productService.findProductByName(name);
+    }
+
+
 
 
 }

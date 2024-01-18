@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class ProductServiceReactive {
+public class ProductServiceCollectionBasedImpl implements ProductService {
 
     private List<ProductDto> productList;
 
@@ -38,11 +38,32 @@ public class ProductServiceReactive {
     }
 
     public Flux<ProductDto> getAllProducts() {
-
         return Flux.fromIterable(productList)
-                    .delayElements(Duration.ofSeconds(2))
-                    .doOnNext(p->log.info("Processing Product {}",p));
+                .delayElements(Duration.ofSeconds(2))
+                .doOnNext(p -> log.info("Processing Product {}", p))
+                .doOnCancel(() -> log.info("Processing Cancelled"))
+                .doOnComplete(() -> log.info("Processing Completed"));
 
+    }
+
+    @Override
+    public Mono<ProductDto> saveProduct(Mono<ProductDto> product) {
+        return null;
+    }
+
+    @Override
+    public Mono<ProductDto> updateProduct(Mono<ProductDto> product) {
+        return null;
+    }
+
+    @Override
+    public Mono<Void> deleteProduct(int id) {
+        return null;
+    }
+
+    @Override
+    public Mono<ProductDto> findProductByName(String name) {
+        return null;
     }
 
 

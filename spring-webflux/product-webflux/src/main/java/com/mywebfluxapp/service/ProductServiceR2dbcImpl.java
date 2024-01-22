@@ -17,10 +17,14 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class ProductServiceR2dbcImpl implements ProductService{
 
-    @Autowired
-    Environment env;
+//    @Autowired
+//    Environment env;
 
     private ProductRepository productRepository;
+
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Autowired
     public ProductServiceR2dbcImpl(ProductRepository productRepository) {

@@ -4,7 +4,7 @@ server:
 # datasource properties for h2
 spring:
   application:
-    name: product-ms
+    name: product-service
   datasource:
     url: r2dbc:h2:mem:///product_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa

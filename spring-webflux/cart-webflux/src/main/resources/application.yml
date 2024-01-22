@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: cart-service
+  datasource:
+    url: r2dbc:h2:mem:///cart_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console

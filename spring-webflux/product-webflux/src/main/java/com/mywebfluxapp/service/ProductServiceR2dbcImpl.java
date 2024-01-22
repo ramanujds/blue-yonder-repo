@@ -4,16 +4,21 @@ import com.mywebfluxapp.dto.ProductDto;
 import com.mywebfluxapp.entity.Product;
 import com.mywebfluxapp.repository.ProductRepository;
 import com.mywebfluxapp.util.EntityDtoUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
 @Primary
+@Slf4j
 public class ProductServiceR2dbcImpl implements ProductService{
 
+    @Autowired
+    Environment env;
 
     private ProductRepository productRepository;
 
@@ -24,7 +29,11 @@ public class ProductServiceR2dbcImpl implements ProductService{
 
     @Override
     public Mono<ProductDto> getProductById(int id) {
-        return productRepository.findById(id).map(EntityDtoUtil::getProductDto);
+        return productRepository.findById(id)
+//                .doOnNext(
+//                p->log.info(env.getProperty("local.server.port"))
+//                )
+                .map(EntityDtoUtil::getProductDto);
     }
 
     @Override

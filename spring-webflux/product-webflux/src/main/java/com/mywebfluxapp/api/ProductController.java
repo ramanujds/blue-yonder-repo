@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 // ab -n 100 -c 100 http://localhost:5100/api/products/reactive
 
 @RestController
-@RequestMapping("/api/products/reactive")
+@RequestMapping("/api/products")
 public class ProductController {
 
     private ProductService productService;

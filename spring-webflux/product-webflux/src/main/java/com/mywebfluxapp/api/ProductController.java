@@ -1,15 +1,17 @@
 package com.mywebfluxapp.api;
 
 import com.mywebfluxapp.dto.ProductDto;
+import com.mywebfluxapp.exception.ProductNotFoundException;
 import com.mywebfluxapp.service.ProductService;
 import com.mywebfluxapp.service.ProductServiceCollectionBasedImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 // ab -n 100 -c 100 http://localhost:5100/api/products/reactive
-
+@Slf4j
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -24,7 +26,9 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public Mono<ProductDto> getProductById(@PathVariable int id){
-       return productService.getProductById(id);
+       return productService.getProductById(id).doOnError(e->{
+           log.error(e.getMessage());
+       });
     }
 
     @GetMapping(produces = "text/event-stream")
@@ -44,7 +48,11 @@ public class ProductController {
 
     @PutMapping
     public Mono<ProductDto> updateProduct(@RequestBody Mono<ProductDto> product){
-        return productService.updateProduct(product);
+        return productService.updateProduct(product).doOnError(
+                e->{
+                   log.error(e.getMessage());
+                }
+        );
     }
 
     @GetMapping("/name/{name}")

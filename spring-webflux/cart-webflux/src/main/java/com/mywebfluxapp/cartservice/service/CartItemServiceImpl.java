@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +45,11 @@ public class CartItemServiceImpl implements CartItemService{
                 .bodyToMono(ProductApiResponse.class)
                 .map(productApiResponse -> new CartItemEntity(0,productApiResponse.name(),productApiResponse.price(),quantity))
                 .flatMap(cartItemRepository::save)
-                .map(EntityDtoUtil::getCartItemDto);
+                .map(EntityDtoUtil::getCartItemDto)
+       //         .retryWhen(Retry.fixedDelay(3, Duration.ofSeconds(1)))
+              .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)))
+
+              ;
 
     }
 

@@ -2,6 +2,7 @@ package com.mywebfluxapp.service;
 
 import com.mywebfluxapp.dto.ProductDto;
 import com.mywebfluxapp.entity.Product;
+import com.mywebfluxapp.exception.ProductNotFoundException;
 import com.mywebfluxapp.repository.ProductRepository;
 import com.mywebfluxapp.util.EntityDtoUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import reactor.core.publisher.Mono;
 @Service
 @Primary
 @Slf4j
-public class ProductServiceR2dbcImpl implements ProductService{
+public class ProductServiceR2dbcImpl implements ProductService {
 
 //    @Autowired
 //    Environment env;
@@ -33,10 +34,7 @@ public class ProductServiceR2dbcImpl implements ProductService{
 
     @Override
     public Mono<ProductDto> getProductById(int id) {
-        return productRepository.findById(id)
-//                .doOnNext(
-//                p->log.info(env.getProperty("local.server.port"))
-//                )
+        return productRepository.findById(id).switchIfEmpty(Mono.error(new ProductNotFoundException("Product with ID " + id + " Not Found")))
                 .map(EntityDtoUtil::getProductDto);
     }
 
@@ -49,26 +47,28 @@ public class ProductServiceR2dbcImpl implements ProductService{
     @Override
     public Mono<ProductDto> saveProduct(Mono<ProductDto> product) {
 
-       return  product.map(EntityDtoUtil::getProductEntity)
-                         .flatMap(p->productRepository.save(p))
-                         .map(EntityDtoUtil::getProductDto);
+        return product.map(EntityDtoUtil::getProductEntity)
+                .flatMap(p -> productRepository.save(p))
+                .map(EntityDtoUtil::getProductDto);
 
     }
 
     @Override
     public Mono<ProductDto> updateProduct(Mono<ProductDto> product) {
-      return  product.map(EntityDtoUtil::getProductEntity)
-                .flatMap(p->productRepository.save(p))
-                .map(EntityDtoUtil::getProductDto);
-    }
+        return product.map(EntityDtoUtil::getProductEntity)
+                .flatMap(p -> productRepository.findById(p.getId())
+                            .switchIfEmpty(Mono.error(new ProductNotFoundException("Product with ID " + p.getId() + " Not Found")))
+                            .flatMap(pr -> productRepository.save(pr))
+                            .map(EntityDtoUtil::getProductDto));
+                }
 
-    @Override
-    public Mono<Void> deleteProduct(int id) {
-        return productRepository.deleteById(id);
-    }
+        @Override
+        public Mono<Void> deleteProduct ( int id){
+            return productRepository.deleteById(id);
+        }
 
-    @Override
-    public Mono<ProductDto> findProductByName(String name) {
-        return productRepository.findByName(name).map(EntityDtoUtil::getProductDto);
+        @Override
+        public Mono<ProductDto> findProductByName (String name){
+            return productRepository.findByName(name).map(EntityDtoUtil::getProductDto);
+        }
     }
-}

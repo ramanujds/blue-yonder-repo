@@ -8,12 +8,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="product-webflux" />
-        <module name="product-web" />
+        <module name="cart-webflux" />
+        <module name="discovery-server" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="product-web" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="cart-webflux" options="-parameters" />
+      <module name="discovery-server" options="-parameters" />
       <module name="product-web" options="-parameters" />
       <module name="product-webflux" options="-parameters" />
     </option>

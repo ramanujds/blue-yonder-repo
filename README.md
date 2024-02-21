@@ -1,5 +1,13 @@
 # Notes and Important Links
 
+
+### Post assessment - https://www.surveymonkey.com/r/825JSZD
+
+### Feedback link - https://www.surveymonkey.com/r/WYBWF7T
+
+## LinkedIn : https://linkedin.com/in/ramanujdas
+
+
 ## Microservices in Details
 
 https://github.com/ramanujds/spring-boot-microservices
